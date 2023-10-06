@@ -1,14 +1,19 @@
-import React from 'react';
+import React,{useState,useContext} from 'react';
 import Dashboard from '../screens/Dashboard';
 import ClockinOut from '../screens/ClockinOut';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native'; 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Menu from '../screens/Menu';
 import LeaveSummary from '../screens/LeaveSummary';
 import Profile from '../screens/Profile';
 import {StyleSheet, Image, View, Text, TouchableOpacity} from 'react-native';
 
+import ModelContext from '../utils/ModelContext';
+import DrawerNavigation from './drawerNavigation';
 const Tab = createBottomTabNavigator();
+
+
+const DummyComponent = () => null;
 
 const CustomTabBarButton = ({children, onPress}) => (
   <TouchableOpacity
@@ -30,8 +35,19 @@ const CustomTabBarButton = ({children, onPress}) => (
   </TouchableOpacity>
 );
 
+
+
+
+
 const HomeNavigation = () => {
+
+
+  const [showModal, setShowModal] = useState(false);
+  // const {showModal, setShowModal} = useContext(ModelContext)
+
   return (
+    
+  
     <Tab.Navigator
       tabBarOptions={{
         showLabel: false,
@@ -61,29 +77,17 @@ const HomeNavigation = () => {
         }}
       />
 
-      <Tab.Screen
-        name="ClockinOut"
-        component={ClockinOut}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <View>
-              <Image
-                source={require('../assets/Icons/Fing.png')}
-                resizeMode="contain"
-                style={{
-                  width: 30,
-                  height: 30,
-                  tintColor: focused ? '#5C5CFF' : '#748c94',
-                }}
-              />
-            </View>
-          ),
-        }}
-      />
+     
       <Tab.Screen
         name="Menu"
-      
-        component={Menu}
+        component={DummyComponent}
+      listeners={({ navigation, route }) => ({
+        tabPress: (e) => {
+          e.preventDefault(); // Prevent default navigation
+          setShowModal(!showModal)
+          console.log(showModal)
+        },
+      })}
         screenOptions={{
           headerShown: false,
         }}
@@ -141,7 +145,10 @@ const HomeNavigation = () => {
           ),
         }}
       />
+      
     </Tab.Navigator>
+
+   
   );
 };
 

@@ -25,6 +25,8 @@ const Menu = props => {
           onPress={() => props.navigation.navigate('Dashboard')}>
           Back
         </Button>
+
+
       </View>
  
   );
